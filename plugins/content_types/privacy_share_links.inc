@@ -1,9 +1,21 @@
 <?php
 function eff_library_eff_share_blog_content_type_render($subtype, $conf, $panel_args, $context) {
+
+  // todo: don't assume that there is a node context unless this content type requires
+  // a node context.
   $node = $context->data;
   $title = $node->title;
+
+  // This shares the current URI, but the REQUEST_URI may not be the canonical URL for
+  // this page. Use Drupal's request_uri() for a method that works on other servers
+  // besides Apache.
   $url = "https://www.eff.org".$_SERVER['REQUEST_URI'];
+
   $body_trimmed = substr(strip_tags($node->body['und'][0]['safe_value']), 0, 260);
+
+  // urlencode() is also called when the Drupal url() function is used to construct
+  // a URL from different pieces of data. The query portion of the URL (after the ?) is
+  // passed as an array. It also handles the replacement of SPACE with +.
   $identica_link = "https://identi.ca/notice/new?status_textarea=".urlencode("$title $url");
   $twitter_link = "https://twitter.com/home?status=".urlencode("$title $url");
   $google_plus_link = "https://plus.google.com/share?url=".urlencode($url);
@@ -13,7 +25,22 @@ function eff_library_eff_share_blog_content_type_render($subtype, $conf, $panel_
 
   // build the block
   $block = new stdClass();
+
+  // todo: Give the block a title. It can be overridden and made blank.
   $block->title   = NULL;
+
+  // This should ultimately be rendered as a semantic HTML list of links that is produced
+  // by a Drupal theme function probably theme_links. We should not output images because
+  // this is more easily supported as background images in CSS. That is easier to override
+  // too. The default style background images could be simply the favicon.ico files of
+  // the sites we're sharing to.
+  //
+  // We want the markup to resemble:
+  //
+  // <ul>
+  // <li class="twitter"><a href="...">Twitter</a></li>
+  // ...
+  // </ul>
   $block->content =
     '<div class="share-links">'.
     '<a href="'.$twitter_link.'" target="_blank"><img src="/sites/all/themes/frontier/images/share/twitter.gif" alt="Share on Twitter" /></a>'.
