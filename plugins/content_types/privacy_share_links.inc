@@ -1,54 +1,97 @@
 <?php
-function eff_library_eff_share_blog_content_type_render($subtype, $conf, $panel_args, $context) {
 
-  // todo: don't assume that there is a node context unless this content type requires
-  // a node context.
-  $node = $context->data;
+/**
+ * Plugins are described by creating a $plugin array which will be used
+ * by the system that includes this file.
+ */
+$plugin = array(
+  'single' => TRUE,
+  'title' => t('Privacy share links'),
+  'description' => t('Social share links that respect privacy.'),
+  'required context' => new ctools_context_required(t('Node'), 'node'),
+  'category' => t('Node'),
+);
+
+function palanteshare_privacy_share_links_content_type_render($subtype, $conf, $panel_args, $context) {
+
+  $node = isset($context->data) ? clone($context->data) : NULL;
+
   $title = $node->title;
 
-  // This shares the current URI, but the REQUEST_URI may not be the canonical URL for
-  // this page. Use Drupal's request_uri() for a method that works on other servers
-  // besides Apache.
-  $url = "https://www.eff.org".$_SERVER['REQUEST_URI'];
+  $uri = entity_uri('node', $node);
+  $url = url($uri['path'], array('absolute' => TRUE));
 
-  $body_trimmed = substr(strip_tags($node->body['und'][0]['safe_value']), 0, 260);
+  $display = array(
+    'label' => 'hidden',
+    'type' => 'text_summary_or_trimmed',
+  );
+  $summary = field_view_field('node', $node, 'body', $display);
 
-  // urlencode() is also called when the Drupal url() function is used to construct
-  // a URL from different pieces of data. The query portion of the URL (after the ?) is
-  // passed as an array. It also handles the replacement of SPACE with +.
-  $identica_link = "https://identi.ca/notice/new?status_textarea=".urlencode("$title $url");
-  $twitter_link = "https://twitter.com/home?status=".urlencode("$title $url");
-  $google_plus_link = "https://plus.google.com/share?url=".urlencode($url);
-  $diaspora_link = "http://sharetodiaspora.github.com/?title=".str_replace("+", " ", urlencode($title))."&url=".urlencode($url);
-  $facebook_link = "https://www.facebook.com/share.php?u=".urlencode($url)."&t=".urlencode($title);
-  $email_link = "mailto:?subject=".$title."&body=".substr(htmlspecialchars(strip_tags($node->body['und'][0]['safe_value'])), 0, 260)."...%0D%0A%0D%0A".$url."%0D%0A";
+  $links = array();
 
-  // build the block
+  $links['identica'] = array(
+    'title' => t('Identi.ca'),
+    'href' => 'https://identi.ca/notice/new',
+    'attributes' => array(
+      'class' => 'identica',
+    ),
+    'query' => array(
+      'status_textarea' => $title .' '. $url,
+    ),
+  );
+
+  $links['twitter'] = array(
+    'title' => t('Twitter'),
+    'href' => 'https://twitter.com/home',
+    'query' => array(
+      'status' => $title .' '. $url,
+    ),
+  );
+
+  $links['google-plus'] = array(
+    'title' => t('Google Plus'),
+    'href' => 'https://plus.google.com/share',
+    'query' => array(
+      'url' => $url,
+    ),
+  );
+
+  $links['diaspora'] = array(
+    'title' => t('Diaspora'),
+    'href' => 'http://sharetodiaspora.github.com',
+    'query' => array(
+      'title' => $title,
+      'url' => $url,
+    ),
+  );
+
+  $links['facebook'] = array(
+    'title' => t('Facebook'),
+    'href' => 'https://www.facebook.com/share.php',
+    'query' => array(
+      't' => $title,
+      'u' => $url,
+    ),
+  );
+
+  $links['email'] = array(
+    'title' => t('Email'),
+    'href' => 'mailto:',
+    'query' => array(
+      'subject' => $title,
+      'body' => trim(filter_xss(render($summary), array())) ."\r\n\r\n". $url ."\r\n",
+    ),
+  );
+
   $block = new stdClass();
+  $block->title = t('Share');
+  $block->content = array(
+    '#theme' => 'links__node__sharing',
+    '#links' => $links,
+    '#attributes' => array('class' => array('links')),
+  );
 
-  // todo: Give the block a title. It can be overridden and made blank.
-  $block->title   = NULL;
+  ctools_add_css('palanteshare', 'palanteshare');
 
-  // This should ultimately be rendered as a semantic HTML list of links that is produced
-  // by a Drupal theme function probably theme_links. We should not output images because
-  // this is more easily supported as background images in CSS. That is easier to override
-  // too. The default style background images could be simply the favicon.ico files of
-  // the sites we're sharing to.
-  //
-  // We want the markup to resemble:
-  //
-  // <ul>
-  // <li class="twitter"><a href="...">Twitter</a></li>
-  // ...
-  // </ul>
-  $block->content =
-    '<div class="share-links">'.
-    '<a href="'.$twitter_link.'" target="_blank"><img src="/sites/all/themes/frontier/images/share/twitter.gif" alt="Share on Twitter" /></a>'.
-    '<a href="'.$facebook_link.'" target="_blank"><img src="/sites/all/themes/frontier/images/share/facebook.gif" alt="Share on Facebook" /></a>'.
-    '<a href="'.$google_plus_link.'" onclick="javascript:window.open(this.href, \'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;"><img src="/sites/all/themes/frontier/images/share/gplus-16.png" alt="Share on Google+"/></a>'.
-    '<a href="'.$identica_link.'" target="_blank"><img src="/sites/all/themes/frontier/images/share/identica.gif" alt="Share on Identi.ca" /></a>'.
-    '<a href="'.$diaspora_link.'" target="_blank"><img src="/sites/all/themes/frontier/images/share/diaspora-16.png" alt="Share on Diaspora" /></a>'.
-    '<a href="'.$email_link.'" target="_blank"><img src="/sites/all/themes/frontier/images/share/email.gif" alt="Email This" /></a>'.
-    '</div>';
   return $block;
 }

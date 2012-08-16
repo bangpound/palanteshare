@@ -1,0 +1,27 @@
+.pane-privacy-share-links {
+  li {
+    &.facebook {
+      list-style-image: url('http://facebook.com/favicon.ico');
+    }
+
+    &.google-plus {
+      list-style-image: url('https://ssl.gstatic.com/images/icons/gplus-16.png');
+    }
+
+    &.diaspora {
+      list-style-image: url('http://joindiaspora.com/favicon.ico');
+    }
+
+    &.twitter {
+      list-style-image: url('http://twitter.com/favicon.ico');
+    }
+
+    &.email {
+      list-style-image: url('http://upload.wikimedia.org/wikipedia/commons/5/5c/Email.png');
+    }
+
+    &.identica {
+      list-style-image: url('http://identi.ca/favicon.ico');
+    }
+  }
+}
