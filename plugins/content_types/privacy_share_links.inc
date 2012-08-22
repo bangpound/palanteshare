@@ -12,6 +12,14 @@ $plugin = array(
   'category' => t('Node'),
 );
 
+/**
+ * Empty form so we can have the default override title.
+ */
+function palanteshare_privacy_share_links_content_type_edit_form($form, &$form_state) {
+  // Does nothing!
+  return $form;
+}
+
 function palanteshare_privacy_share_links_content_type_render($subtype, $conf, $panel_args, $context) {
 
   $node = isset($context->data) ? clone($context->data) : NULL;
