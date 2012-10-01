@@ -1,2 +1,4 @@
-palanteshare
-============
+Palante Share
+=============
+
+Social sharing module.

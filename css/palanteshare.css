@@ -1,0 +1,12 @@
+.pane-privacy-share-links li.facebook {
+  list-style-image: url("http://facebook.com/favicon.ico"); }
+.pane-privacy-share-links li.google-plus {
+  list-style-image: url("https://ssl.gstatic.com/images/icons/gplus-16.png"); }
+.pane-privacy-share-links li.diaspora {
+  list-style-image: url("http://joindiaspora.com/favicon.ico"); }
+.pane-privacy-share-links li.twitter {
+  list-style-image: url("http://twitter.com/favicon.ico"); }
+.pane-privacy-share-links li.email {
+  list-style-image: url("http://upload.wikimedia.org/wikipedia/commons/5/5c/Email.png"); }
+.pane-privacy-share-links li.identica {
+  list-style-image: url("http://identi.ca/favicon.ico"); }

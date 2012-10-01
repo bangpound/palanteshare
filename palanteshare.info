@@ -1,0 +1,7 @@
+; see http://drupal.org/node/542202
+
+name = Palante Share
+description = "Social media sharing"
+core = 7.x
+;dependencies[] = ctools
+;configure =

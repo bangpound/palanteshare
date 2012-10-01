@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * This function needs to tell Ctools that our module has a ctools content type plugin and
+ * where to find it.
+ *
+ * @see http://j.mp/Mq3wM7             Documentation of hook.
+ * @see hook_ctools_plugin_directory() Hook pattern.
+ *
+ * @param string $owner
+ *   The system name of the module owning the plugin type for which a base
+ *   directory location is being requested.
+ * @param string $plugin_type
+ *   The name of the plugin type for which a base directory is being requested.
+ *
+ * @return string
+ *   The path where CTools' plugin system should search for plugin files,
+ *   relative to your module's root. Omit leading and trailing slashes.
+ */
+function palanteshare_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
