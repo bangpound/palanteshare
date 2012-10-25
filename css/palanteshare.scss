@@ -1,27 +1,48 @@
+@import "compass";
+
 .pane-privacy-share-links {
+  ul.links {
+    @include reset-box-model;
+    @include reset-list-style;
+  }
   li {
+    padding-left: 24px;
+    background-position: left center;
+    background-repeat: no-repeat;
     &.facebook {
-      list-style-image: url('http://facebook.com/favicon.ico');
+      background-image: url('http://facebook.com/favicon.ico');
     }
 
     &.google-plus {
-      list-style-image: url('https://ssl.gstatic.com/images/icons/gplus-16.png');
+      background-image: url('https://ssl.gstatic.com/images/icons/gplus-16.png');
     }
 
     &.diaspora {
-      list-style-image: url('http://joindiaspora.com/favicon.ico');
+      background-image: url('http://joindiaspora.com/favicon.ico');
     }
 
     &.twitter {
-      list-style-image: url('http://twitter.com/favicon.ico');
+      background-image: url('http://twitter.com/favicon.ico');
     }
 
     &.email {
-      list-style-image: url('http://upload.wikimedia.org/wikipedia/commons/5/5c/Email.png');
+      background-image: url('../images/email.png');
+    }
+
+    &.print {
+      background-image: url('../images/printer.png');
     }
 
     &.identica {
-      list-style-image: url('http://identi.ca/favicon.ico');
+      background-image: url('http://identi.ca/favicon.ico');
+    }
+  }
+  &.inline {
+    ul.links {
+    }
+    li {
+      @include float-left;
+      margin-right: 1em;
     }
   }
 }

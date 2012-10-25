@@ -1,12 +1,37 @@
+.pane-privacy-share-links ul.links {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+.pane-privacy-share-links li {
+  padding-left: 24px;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
 .pane-privacy-share-links li.facebook {
-  list-style-image: url("http://facebook.com/favicon.ico"); }
+  background-image: url("http://facebook.com/favicon.ico");
+}
 .pane-privacy-share-links li.google-plus {
-  list-style-image: url("https://ssl.gstatic.com/images/icons/gplus-16.png"); }
+  background-image: url("https://ssl.gstatic.com/images/icons/gplus-16.png");
+}
 .pane-privacy-share-links li.diaspora {
-  list-style-image: url("http://joindiaspora.com/favicon.ico"); }
+  background-image: url("http://joindiaspora.com/favicon.ico");
+}
 .pane-privacy-share-links li.twitter {
-  list-style-image: url("http://twitter.com/favicon.ico"); }
+  background-image: url("http://twitter.com/favicon.ico");
+}
 .pane-privacy-share-links li.email {
-  list-style-image: url("http://upload.wikimedia.org/wikipedia/commons/5/5c/Email.png"); }
+  background-image: url("../images/email.png");
+}
+.pane-privacy-share-links li.print {
+  background-image: url("../images/printer.png");
+}
 .pane-privacy-share-links li.identica {
-  list-style-image: url("http://identi.ca/favicon.ico"); }
+  background-image: url("http://identi.ca/favicon.ico");
+}
+.pane-privacy-share-links.inline li {
+  display: inline;
+  float: left;
+  margin-right: 1em;
+}
