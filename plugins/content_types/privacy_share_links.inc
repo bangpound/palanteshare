@@ -91,6 +91,16 @@ function palanteshare_privacy_share_links_content_type_render($subtype, $conf, $
     ),
   );
 
+  $links['print'] = array(
+    'title' => t('Print'),
+    'href' => '#',
+    'absolute' => TRUE,
+    'external' => TRUE,
+    'attributes' => array(
+      'onclick' => 'window.print();',
+    ),
+  );
+
   $block = new stdClass();
   $block->title = t('Share');
   $block->content = array(
