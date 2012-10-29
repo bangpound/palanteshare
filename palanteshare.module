@@ -24,3 +24,16 @@ function palanteshare_ctools_plugin_directory($owner, $plugin_type) {
     return 'plugins/content_types';
   }
 }
+
+function palanteshare_init() {
+  global $user;
+  $id = variable_get('googleanalytics_account', '');
+  $status = drupal_get_http_header('Status');
+  $trackable_status_codes = array(
+    '403 Forbidden',
+    '404 Not Found',
+  );
+  if (!empty($id) && (_googleanalytics_visibility_pages() || in_array($status, $trackable_status_codes)) && _googleanalytics_visibility_user($user)) {
+    ctools_add_js('privacy_share_links.google_analytics', 'palanteshare');
+  }
+}
