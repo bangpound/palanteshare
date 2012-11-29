@@ -29,11 +29,14 @@ function palanteshare_privacy_share_links_content_type_render($subtype, $conf, $
   $uri = entity_uri('node', $node);
   $url = url($uri['path'], array('absolute' => TRUE));
 
-  $display = array(
-    'label' => 'hidden',
-    'type' => 'text_summary_or_trimmed',
-  );
-  $summary = field_view_field('node', $node, 'body', $display);
+  $summary = array();
+  if (field_get_items('node', $node, 'body')) {
+    $display = array(
+      'label' => 'hidden',
+      'type' => 'text_summary_or_trimmed',
+    );
+    $summary = field_view_field('node', $node, 'body', $display);
+  }
 
   $links = array();
 
