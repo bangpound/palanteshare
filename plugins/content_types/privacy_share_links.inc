@@ -106,6 +106,12 @@ function palanteshare_privacy_share_links_content_type_render($subtype, $conf, $
     $links['tumblr'] = array(
       'title' => t('Tumblr'),
       'href' => 'http://www.tumblr.com/share',
+      'query' => array(
+        'v' => '3',
+        'u' => $url,
+        't' => $title,
+        's' => trim(filter_xss(render($summary), array())),
+      ),
     );
   }
 
