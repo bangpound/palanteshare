@@ -14,6 +14,7 @@ $plugin = array(
     'identica' => TRUE,
     'twitter' => TRUE,
     'google_plus' => TRUE,
+    'tumblr' => TRUE,
     'diaspora' => TRUE,
     'facebook' => TRUE,
     'email' => TRUE,
@@ -98,6 +99,13 @@ function palanteshare_privacy_share_links_content_type_render($subtype, $conf, $
       'query' => array(
         'url' => $url,
       ),
+    );
+  }
+
+  if (!empty($conf['tumblr'])) {
+    $links['tumblr'] = array(
+      'title' => t('Tumblr'),
+      'href' => 'http://www.tumblr.com/share',
     );
   }
 
